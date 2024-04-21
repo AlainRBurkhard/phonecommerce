@@ -91,30 +91,45 @@ def main():
             options=('Our Top!', 'Best Deal $', 'Flash Delivery')
         )
 
-        # Map selection to DataFrame
         dataframes = {
             'Our Top!': df_recommended,
             'Best Deal $': df_best_deal,
             'Flash Delivery': fastest_delivery_df
         }
-        
+
         selected_df = dataframes[df_choice] if df_choice in dataframes else None
 
-        # Brand selection based on the selected DataFrame
         if selected_df is not None:
             brand_choice = st.selectbox(
                 "Select a brand:",
                 options=pd.unique(selected_df['brand'].dropna())
             )
 
-            # Filter the selected DataFrame for the chosen brand
             df_filtered_by_brand = selected_df[selected_df['brand'] == brand_choice]
 
-            # Model selection based on the chosen brand
             if not df_filtered_by_brand.empty:
                 model_choice = st.selectbox(
                     "Select a model:",
                     options=pd.unique(df_filtered_by_brand['model'].dropna())
+                )
+
+                df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice]
+
+                # Optional memory selection
+                memory_options = pd.unique(df_filtered_by_model['memory_GB'].dropna())
+                memory_choice = st.selectbox(
+                    "Select memory (optional):",
+                    options=['Any'] + list(memory_options)
+                )
+
+                # Adjust DataFrame based on optional memory choice
+                if memory_choice != 'Any':
+                    df_final = df_filtered_by_model[df_filtered_by_model['memory_GB'] == memory_choice]
+                else:
+                    df_final = df_filtered_by_model
+
+                # Display or process df_final as required
+                st.dataframe(df_final)
                 )
                 st.write(f"You selected the model: {model_choice}")
                 # Use model_choice for further operations, e.g., displaying more details
