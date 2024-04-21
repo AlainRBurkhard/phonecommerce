@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
-import plotly.express as px
-import matplotlib.image as mpimg
+
 import folium
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -77,7 +76,7 @@ df_best_deal = df_best_deal[cols]
 
 
 ###########################################################################################################
-from functions import sidebar
+"""from functions import sidebar
 
 def sidebar(df):
     
@@ -130,7 +129,7 @@ def sidebar(df):
     
     return df
 
-df = sidebar(df)
+df = sidebar(df)"""
 
 
 tab1 = st.tabs( ['TipTopClub']) 
@@ -139,4 +138,4 @@ with tab1:
     
     with st.container():
         #orders per day
-        st.header('TipTop for You!')
+        st.header('TipTop for Yo
