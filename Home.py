@@ -91,21 +91,13 @@ def main():
     with tabs[0]:
         st.header("TipTop for You!")
         st.subheader("Select Your Preference")
-        
+
         # Radio button for DataFrame selection
         df_choice = st.radio(
             "Choose an option:",
             options=('Our Top!', 'Best Deal $', 'Flash Delivery'),
             key='df_choice'
         )
-
-        # Initialize session state for brand, model, and memory
-        if 'brand' not in st.session_state:
-            st.session_state.brand = None
-        if 'model' not in st.session_state:
-            st.session_state.model = None
-        if 'memory' not in st.session_state:
-            st.session_state.memory = None
 
         dataframes = {
             'Our Top!': df_recommended,
@@ -116,38 +108,44 @@ def main():
         selected_df = dataframes[df_choice] if df_choice in dataframes else None
 
         if selected_df is not None:
+            if 'brand' not in st.session_state:
+                st.session_state.brand = None
             brand_options = pd.unique(selected_df['brand'].dropna())
             brand_choice = st.selectbox(
                 "Select a brand:",
                 options=brand_options,
                 index=brand_options.tolist().index(st.session_state.brand) if st.session_state.brand in brand_options else 0,
-                key='brand'
+                key='brand',
+                on_change=lambda: setattr(st.session_state, 'brand', brand_choice)
             )
-            st.session_state.brand = brand_choice  # Update session state
 
             df_filtered_by_brand = selected_df[selected_df['brand'] == brand_choice]
 
             if not df_filtered_by_brand.empty:
+                if 'model' not in st.session_state:
+                    st.session_state.model = None
                 model_options = pd.unique(df_filtered_by_brand['model'].dropna())
                 model_choice = st.selectbox(
                     "Select a model:",
                     options=model_options,
                     index=model_options.tolist().index(st.session_state.model) if st.session_state.model in model_options else 0,
-                    key='model'
+                    key='model',
+                    on_change=lambda: setattr(st.session_state, 'model', model_choice)
                 )
-                st.session_state.model = model_choice  # Update session state
 
                 df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice]
 
                 if not df_filtered_by_model.empty:
+                    if 'memory' not in st.session_state:
+                        st.session_state.memory = None
                     memory_options = ['Any'] + list(pd.unique(df_filtered_by_model['memory_GB'].dropna()))
                     memory_choice = st.selectbox(
                         "Select memory (optional):",
                         options=memory_options,
                         index=memory_options.index(st.session_state.memory) if st.session_state.memory in memory_options else 0,
-                        key='memory'
+                        key='memory',
+                        on_change=lambda: setattr(st.session_state, 'memory', memory_choice)
                     )
-                    st.session_state.memory = memory_choice  # Update session state
 
                     if memory_choice != 'Any':
                         df_final = df_filtered_by_model[df_filtered_by_model['memory_GB'] == memory_choice]
