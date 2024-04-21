@@ -70,9 +70,8 @@ df_best_deal = df_best_deal[cols]
 
 ###########################################################################################################
 
-
 def main():
-    st.title("Streamlit App")
+    st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
 
     # Create a single tab
     tabs = st.tabs(["TipTopClub"])
@@ -80,8 +79,23 @@ def main():
     # Add content to the tab
     with tabs[0]:
         st.header("TipTop for You!")
-        # Additional content goes here. Example:
-        st.subheader("Your daily or session-specific data:")
+        
+        st.subheader("Select Your Preference")
+        
+        # Radio button for user selection
+        df_choice = st.radio(
+            "Choose an option:",
+            options=('Our Top!', 'Best Deal $', 'Flash Delivery')
+        )
+
+        # Display the DataFrame based on user selection
+        if df_choice == 'Our Top!':
+            st.dataframe(df_recommended)
+        elif df_choice == 'Best Deal $':
+            st.dataframe(df_best_deal)
+        elif df_choice == 'Flash Delivery':
+            st.dataframe(fastest_delivery_df)
+
         st.text("Here you might include detailed analysis, charts, tables, etc.")
 
 if __name__ == "__main__":
