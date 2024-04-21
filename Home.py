@@ -71,11 +71,18 @@ df_best_deal = df_best_deal[cols]
 ###########################################################################################################
 
 
+def main():
+    st.title("Streamlit App")
 
-tab1 = st.tabs( ['TipTopClub']) 
+    # Create a single tab
+    tabs = st.tabs(["TipTopClub"])
 
-with tab1:
-    
-    with st.container():
-        #orders per day
-        st.header('TipTop for You')
+    # Add content to the tab
+    with tabs[0]:
+        st.header("TipTop for You!")
+        # Additional content goes here. Example:
+        st.subheader("Your daily or session-specific data:")
+        st.text("Here you might include detailed analysis, charts, tables, etc.")
+
+if __name__ == "__main__":
+    main()
