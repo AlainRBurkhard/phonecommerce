@@ -18,6 +18,10 @@ df_recommended = df_valid.sort_values(
     by=['score', 'price', 'delivery_time', 'reviews_count', 'memory_GB', 'camera_MP'],
     ascending=[False, True, True, False, False, False])
 
+df_recommended = df_recommended.dropna(subset=['score'])
+
+df_recommended = df_recommended[df_recommended['score'] != 0]
+
 df_recommended.reset_index(drop=True, inplace=True)
 
 df_recommended.drop(columns='id', inplace=True)
