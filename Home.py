@@ -87,7 +87,7 @@ def display_product_details(df):
 
         # Using a container to frame the product details
         with st.container():
-            st.markdown("#### Product Details")  # Optional: Add a header inside the frame
+            st.markdown("#### Our Result:")  # Optional: Add a header inside the frame
             col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
 
             with col1:
