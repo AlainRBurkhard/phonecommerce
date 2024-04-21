@@ -9,6 +9,7 @@ daf=pd.read_csv('Data/merged_products_20240416.csv')
 df = daf.copy()
 
 df.rename(columns={'rating_100': 'score'}, inplace=True)
+df.rename(columns={'delivery_time': 'Delivery in days'}, inplace=True)
 df_valid = df[df['delivery_time'].notna()]
 
 ###########################################################################################################
