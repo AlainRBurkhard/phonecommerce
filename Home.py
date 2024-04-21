@@ -70,6 +70,9 @@ df_best_deal = df_best_deal[cols]
 
 ###########################################################################################################
 
+import streamlit as st
+import pandas as pd
+
 def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
 
@@ -82,21 +85,27 @@ def main():
         
         st.subheader("Select Your Preference")
         
-        # Radio button for user selection
+        # Radio button for DataFrame selection
         df_choice = st.radio(
             "Choose an option:",
             options=('Our Top!', 'Best Deal $', 'Flash Delivery')
         )
 
-        # Display the DataFrame based on user selection
+        # Determine the DataFrame based on user selection
         if df_choice == 'Our Top!':
-            st.dataframe(df_recommended)
+            selected_df = df_recommended
         elif df_choice == 'Best Deal $':
-            st.dataframe(df_best_deal)
+            selected_df = df_best_deal
         elif df_choice == 'Flash Delivery':
-            st.dataframe(fastest_delivery_df)
-
-        st.text("Here you might include detailed analysis, charts, tables, etc.")
-
-if __name__ == "__main__":
-    main()
+            selected_df = fastest_delivery_df
+        
+        # Display a selectbox with brand options from the selected DataFrame
+        if 'selected_df' in locals():  # Check if selected_df is defined
+            brand_choice = st.selectbox(
+                "Select a brand from the chosen list:",
+                options=pd.unique(selected_df['brand'].dropna())  # Get unique, non-null brand names
+            )
+            st.write(f"You selected the brand: {brand_choice}")
+            
+        # You can use `brand_choice` here for further operations, e.g., filtering the DataFrame by the selected brand
+       
