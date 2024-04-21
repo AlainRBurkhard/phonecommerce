@@ -4,6 +4,7 @@ import streamlit as st
 
 st.set_page_config( page_title= 'e-Commerce Dashboard', page_icon = '📱', layout = 'wide')
 
+###########################################################################################################
 
 daf=pd.read_csv('Data/merged_products_20240416.csv')
 df = daf.copy()
@@ -74,9 +75,6 @@ df_best_deal = df_best_deal[cols]
 
 ###########################################################################################################
 
-import streamlit as st
-import pandas as pd
-
 def display_product_details(df):
     if not df.empty:
         # Extract the first row of the DataFrame
@@ -85,7 +83,7 @@ def display_product_details(df):
         # Adding blank lines for spacing before the details
         st.markdown("###")  # You can adjust the number of these for more or less spacing
 
-        # Using a container to frame the product details
+        
         with st.container():
             st.markdown("#### Our Result")  # Optional: Add a header inside the frame
             col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
@@ -127,7 +125,6 @@ def display_product_details(df):
                 url = product['source']
                 st.markdown(f"[Link]({url})", unsafe_allow_html=True)
 
-            # Adding a style to the container to make it look like a frame
             st.markdown("""
             <style>
             .stContainer {
@@ -224,7 +221,26 @@ def main():
             if not df_final.empty:
                 display_product_details(df_final.iloc[[0]])  # Display first row details
                 st.markdown("### Check it out too")
-                display_remaining_data(df_final.iloc[1:]) 
+                display_remaining_data(df_final.iloc[1:])
+    
+    # Second tab: Explanation
+    with tabs[1]:
+        st.header("Explanation of Sorting Criteria")
+        st.markdown("""
+        **Our Top:**
+        - Sorted primarily by `score` (highest to lowest).
+        - Secondary sorting by `price` (lowest to highest) and `delivery time` (shortest to longest).
+
+        **Fastest Delivery:**
+        - Sorted by `delivery time` (shortest to longest).
+        - Secondary sorting by `price` (lowest to highest).
+
+        **Best Deal:**
+        - Sorted by `price` (lowest to highest).
+        - Secondary sorting by `delivery time` (shortest to longest).
+
+        These criteria ensure that the results are tailored to highlight the most appealing products based on the selected category.
+        """)
 
 if __name__ == "__main__":
     main()
