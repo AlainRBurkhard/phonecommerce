@@ -154,7 +154,8 @@ def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
 
     # Create a single tab
-    tabs = st.tabs(["TipTopClub"])
+    tabs = st.tabs(["TipTopClub", "Explanation"])
+
 
     # Add content to the tab
     with tabs[0]:
