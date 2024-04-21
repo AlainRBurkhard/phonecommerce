@@ -83,32 +83,59 @@ def display_product_details(df):
         product = df.iloc[0]
 
         # Adding blank lines for spacing before the details
-        st.markdown("###")  # Adjust the number of these for more or less spacing
+        st.markdown("###")  # You can adjust the number of these for more or less spacing
 
         # Using a container to frame the product details
         with st.container():
-            # Apply custom CSS with HTML to style the container
+            st.markdown("#### Product Details")  # Optional: Add a header inside the frame
+            col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
+
+            with col1:
+                st.write(f"**Source:**")
+                st.write(product['source'])
+
+            with col2:
+                st.write(f"**Brand:**")
+                st.write(product['brand'])
+
+            with col3:
+                st.write(f"**Model:**")
+                st.write(product['model'])
+
+            with col4:
+                st.write(f"**Memory:**")
+                st.write(f"{product['memory_GB']} GB")
+
+            with col5:
+                st.write(f"**Color:**")
+                st.write(product['color'])
+
+            with col6:
+                st.write(f"**Score:**")
+                st.write(product['score'])
+
+            with col7:
+                st.write(f"**Price:**")
+                st.write(f"${product['price']:.2f}")
+
+            with col8:
+                st.write(f"**Delivery:**")
+                st.write(f"{product['delivery_time']} days")
+
+            with col9:
+                st.write(f"**Link:**")
+                url = product['source']
+                st.markdown(f"[Link]({url})", unsafe_allow_html=True)
+
+            # Adding a style to the container to make it look like a frame
             st.markdown("""
-                <style>
-                    .frame-style {
-                        border: 2px solid #F0F2F6;  # Adjust color as needed
-                        border-radius: 5px;
-                        background-color: white;  # Set background color
-                        padding: 10px;
-                        margin: 10px;
-                    }
-                </style>
-                <div class="frame-style">
-                    <p><strong>Source:</strong> {product['source']}</p>
-                    <p><strong>Brand:</strong> {product['brand']}</p>
-                    <p><strong>Model:</strong> {product['model']}</p>
-                    <p><strong>Memory:</strong> {product['memory_GB']} GB</p>
-                    <p><strong>Color:</strong> {product['color']}</p>
-                    <p><strong>Score:</strong> {product['score']}</p>
-                    <p><strong>Price:</strong> ${product['price']:.2f}</p>
-                    <p><strong>Delivery in days:</strong> {product['delivery_time']} days</p>
-                    <p><strong>Link:</strong> <a href="{product['source']}" target="_blank">Link</a></p>
-                </div>
+            <style>
+            .stContainer {
+                border: 2px solid #4CAF50;
+                border-radius: 10px;
+                padding: 10px;
+            }
+            </style>
             """, unsafe_allow_html=True)
 def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
