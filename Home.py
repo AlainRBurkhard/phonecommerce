@@ -109,3 +109,10 @@ def main():
             
         # You can use `brand_choice` here for further operations, e.g., filtering the DataFrame by the selected brand
        
+def process_data(df):
+    # Placeholder function to represent some processing of the DataFrame
+    # This could be data analysis, further filtering, or preparing data for visualization
+    pass
+
+if __name__ == "__main__":
+    main()
