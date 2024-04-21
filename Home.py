@@ -137,6 +137,22 @@ def display_product_details(df):
             }
             </style>
             """, unsafe_allow_html=True)
+
+def display_remaining_data(df):
+    if not df.empty:
+        st.markdown("###")  # Spacing
+        for index, row in df.iterrows():
+            cols = st.columns(9)
+            cols[0].write(row['source'])
+            cols[1].write(row['brand'])
+            cols[2].write(row['model'])
+            cols[3].write(f"{row['memory_GB']} GB")
+            cols[4].write(row['color'])
+            cols[5].write(row['score'])
+            cols[6].write(f"${row['price']:.2f}")
+            cols[7].write(f"{row['delivery_time']} days")
+            cols[8].markdown(f"[Link]({row['source']})", unsafe_allow_html=True)
+
 def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
 
@@ -206,7 +222,9 @@ def main():
 
             # Optionally display the final DataFrame below the columns if needed
             if not df_final.empty:
-                display_product_details(df_final)
+                display_product_details(df_final.iloc[[0]])  # Display first row details
+                st.markdown("## Full Product List")
+                display_remaining_data(df_final.iloc[1:]) 
 
 if __name__ == "__main__":
     main()
