@@ -1,12 +1,5 @@
 import pandas as pd
 import numpy as np
-
-import folium
-import matplotlib.pyplot as plt
-import seaborn as sns
-import matplotlib.pyplot as plt
-from folium.plugins import MarkerCluster, FeatureGroupSubGroup
-from folium import plugins
 import streamlit as st
 
 st.set_page_config( page_title= 'e-Commerce Dashboard', page_icon = '📱', layout = 'wide')
