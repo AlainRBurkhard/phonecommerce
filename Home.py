@@ -5,7 +5,7 @@ import streamlit as st
 st.set_page_config( page_title= 'e-Commerce Dashboard', page_icon = '📱', layout = 'wide')
 
 
-daf=pd.read_csv('data/merged_products_20240416.csv.csv')
+daf=pd.read_csv('Data/merged_products_20240416.csv')
 df = daf.copy()
 
 df.rename(columns={'rating_100': 'score'}, inplace=True)
