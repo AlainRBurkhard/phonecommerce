@@ -74,13 +74,57 @@ df_best_deal = df_best_deal[cols]
 
 ###########################################################################################################
 
-import streamlit as st
-import pandas as pd
-
 # Sample DataFrame definitions (you'll replace these with your actual DataFrame imports)
 # Define sample DataFrames here or import them before using them in the app.
 # df_recommended, df_best_deal, fastest_delivery_df = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
 
+
+def display_product_details(df):
+    if not df.empty:
+        # Extract the first row of the DataFrame
+        product = df.iloc[0]
+        
+        # Format and display the selected information
+        st.write("### Product Details")
+        st.write(f"**Source:** {product['source']}")
+        st.write(f"**Brand:** {product['brand']}")
+        st.write(f"**Model:** {product['model']}")
+        st.write(f"**Memory:** {product['memory_GB']} GB")
+        st.write(f"**Color:** {product['color']}")
+        st.write(f"**Score:** {product['score']}")
+        st.write(f"**Price:** ${product['price']:.2f}")
+        st.write(f"**Delivery in days:** {product['delivery_time']} days")
+        
+        # Link (display as clickable text)
+        url = product['source']
+        st.markdown(f"[Link]({url})", unsafe_allow_html=True)
+
+# Main function as previously defined
+def main():
+    st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
+    tabs = st.tabs(["TipTopClub"])
+    with tabs[0]:
+        st.header("TipTop for You!")
+        st.subheader("Select Your Preference")
+        df_choice = st.radio("Choose an option:", options=('Our Top!', 'Best Deal $', 'Flash Delivery'))
+        dataframes = {'Our Top!': df_recommended, 'Best Deal $': df_best_deal, 'Flash Delivery': fastest_delivery_df}
+        selected_df = dataframes[df_choice] if df_choice in dataframes else None
+        if selected_df is not None:
+            brand_choice = st.selectbox("Select a brand:", options=pd.unique(selected_df['brand'].dropna()))
+            df_filtered_by_brand = selected_df[selected_df['brand'] == brand_choice]
+            if not df_filtered_by_brand.empty:
+                model_choice = st.selectbox("Select a model:", options=pd.unique(df_filtered_by_brand['model'].dropna()))
+                df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice]
+                if not df_filtered_by_model.empty:
+                    memory_choice = st.selectbox("Select memory (optional):", options=['Any'] + list(pd.unique(df_filtered_by_model['memory_GB'].dropna())))
+                    if memory_choice != 'Any':
+                        df_final = df_filtered_by_model[df_filtered_by_model['memory_GB'] == memory_choice]
+                    else:
+                        df_final = df_filtered_by_model
+                    display_product_details(df_final)
+
+if __name__ == "__main__":
+    main()
 def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
 
