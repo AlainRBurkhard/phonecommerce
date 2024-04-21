@@ -77,7 +77,7 @@ df_best_deal = df_best_deal[cols]
 import streamlit as st
 import pandas as pd
 
-ddef display_product_details(df):
+def display_product_details(df):
     if not df.empty:
         # Extract the first row of the DataFrame
         product = df.iloc[0]
