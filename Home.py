@@ -75,17 +75,16 @@ df_best_deal = df_best_deal[cols]
 
 ###########################################################################################################
 
-def display_product_details(df):
+def display_product_details(df):  ## details of the result
     if not df.empty:
         # Extract the first row of the DataFrame
         product = df.iloc[0]
 
-        # Adding blank lines for spacing before the details
-        st.markdown("###")  # You can adjust the number of these for more or less spacing
+        st.markdown("###")  
 
         
         with st.container():
-            st.markdown("#### Our Result")  # Optional: Add a header inside the frame
+            st.markdown("#### Our Result")  
             col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
 
             with col1:
@@ -137,7 +136,7 @@ def display_product_details(df):
 
 def display_remaining_data(df):
     if not df.empty:
-        st.markdown("###")  # Spacing
+        st.markdown("###") 
         for index, row in df.iterrows():
             cols = st.columns(9)
             cols[0].write(row['source'])
@@ -153,16 +152,13 @@ def display_remaining_data(df):
 def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
 
-    # Create a single tab
     tabs = st.tabs(["TipTopClub", "Explanation"])
 
 
-    # Add content to the tab
     with tabs[0]:
         st.header("TipTop for You!")
         st.subheader("Select Your Preference")
 
-        # Radio button for DataFrame selection
         df_choice = st.radio(
             "Choose an option:",
             options=('Our Top!', 'Best Deal $', 'Flash Delivery'),
@@ -178,9 +174,8 @@ def main():
         selected_df = dataframes[df_choice] if df_choice in dataframes else None
 
         if selected_df is not None:
-            col1, col2, col3 = st.columns(3)  # Create three columns for the select boxes
+            col1, col2, col3 = st.columns(3)  
 
-            # Sort brands by frequency
             brand_counts = selected_df['brand'].dropna().value_counts().index.tolist()
             with col1:  # First column for brands
                 brand_choice = st.selectbox(
@@ -191,8 +186,7 @@ def main():
 
             df_filtered_by_brand = selected_df[selected_df['brand'] == brand_choice]
 
-            # Sort models by frequency within the selected brand
-            with col2:  # Second column for models
+            with col2:  # Second column 
                 if not df_filtered_by_brand.empty:
                     model_counts = df_filtered_by_brand['model'].dropna().value_counts().index.tolist()
                     model_choice = st.selectbox(
@@ -203,7 +197,7 @@ def main():
 
             df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice] if not df_filtered_by_brand.empty else pd.DataFrame()
 
-            with col3:  # Third column for memory
+            with col3:  
                 if not df_filtered_by_model.empty:
                     memory_options = ['Any'] + list(pd.unique(df_filtered_by_model['memory_GB'].dropna()))
                     memory_choice = st.selectbox(
@@ -212,20 +206,17 @@ def main():
                         key='memory_select'
                     )
 
-            # Adjust DataFrame based on optional memory choice
             if memory_choice != 'Any' and not df_filtered_by_model.empty:
                 df_final = df_filtered_by_model[df_filtered_by_model['memory_GB'] == memory_choice]
             else:
                 df_final = df_filtered_by_model
 
-            # Optionally display the final DataFrame below the columns if needed
             if not df_final.empty:
                 display_product_details(df_final.iloc[[0]])  # Display first row details
                 st.markdown("### Check it out too")
                 display_remaining_data(df_final.iloc[1:])
     
-    # Second tab: Explanation
-    with tabs[1]:
+    with tabs[1]: #tab to explain what is done
         st.header("Explanation of Sorting Criteria")
         st.markdown("""
         **Our Top:**
