@@ -103,48 +103,45 @@ def main():
         selected_df = dataframes[df_choice] if df_choice in dataframes else None
 
         if selected_df is not None:
-            # Selectbox for brand
-            brand_choice = st.selectbox(
-                "Select a brand:",
-                options=pd.unique(selected_df['brand'].dropna())
-            )
+            col1, col2, col3 = st.columns(3)  # Create three columns for the select boxes
 
-            # Filtering DataFrame by selected brand
+            with col1:  # First column for brands
+                brand_choice = st.selectbox(
+                    "Select a brand:",
+                    options=pd.unique(selected_df['brand'].dropna()),
+                    key='brand_select'
+                )
+
             df_filtered_by_brand = selected_df[selected_df['brand'] == brand_choice]
 
-            if not df_filtered_by_brand.empty:
-                # Selectbox for model
-                model_choice = st.selectbox(
-                    "Select a model:",
-                    options=pd.unique(df_filtered_by_brand['model'].dropna())
-                )
+            with col2:  # Second column for models
+                if not df_filtered_by_brand.empty:
+                    model_choice = st.selectbox(
+                        "Select a model:",
+                        options=pd.unique(df_filtered_by_brand['model'].dropna()),
+                        key='model_select'
+                    )
 
-                # Filtering DataFrame by selected model
-                df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice]
+            df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice] if not df_filtered_by_brand.empty else pd.DataFrame()
 
-                # Optional memory selection
-                memory_options = ['Any'] + list(pd.unique(df_filtered_by_model['memory_GB'].dropna()))
-                memory_choice = st.selectbox(
-                    "Select memory (optional):",
-                    options=memory_options
-                )
+            with col3:  # Third column for memory
+                if not df_filtered_by_model.empty:
+                    memory_options = ['Any'] + list(pd.unique(df_filtered_by_model['memory_GB'].dropna()))
+                    memory_choice = st.selectbox(
+                        "Select memory (optional):",
+                        options=memory_options,
+                        key='memory_select'
+                    )
 
                 # Adjust DataFrame based on optional memory choice
-                if memory_choice != 'Any':
+                if memory_choice != 'Any' and not df_filtered_by_model.empty:
                     df_final = df_filtered_by_model[df_filtered_by_model['memory_GB'] == memory_choice]
                 else:
                     df_final = df_filtered_by_model
 
-                # Display the final DataFrame
+            # Optionally display the final DataFrame below the columns if needed
+            if not df_final.empty:
                 st.dataframe(df_final)
-
-                st.write(f"You selected the model: {model_choice}")
-
-def process_data(df):
-    # Placeholder function to represent some processing of the DataFrame
-    # This could be data analysis, further filtering, or preparing data for visualization
-    pass
 
 if __name__ == "__main__":
     main()
-
