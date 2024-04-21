@@ -95,8 +95,17 @@ def main():
         # Radio button for DataFrame selection
         df_choice = st.radio(
             "Choose an option:",
-            options=('Our Top!', 'Best Deal $', 'Flash Delivery')
+            options=('Our Top!', 'Best Deal $', 'Flash Delivery'),
+            key='df_choice'
         )
+
+        # Initialize session state for brand, model, and memory
+        if 'brand' not in st.session_state:
+            st.session_state.brand = None
+        if 'model' not in st.session_state:
+            st.session_state.model = None
+        if 'memory' not in st.session_state:
+            st.session_state.memory = None
 
         dataframes = {
             'Our Top!': df_recommended,
@@ -107,45 +116,45 @@ def main():
         selected_df = dataframes[df_choice] if df_choice in dataframes else None
 
         if selected_df is not None:
-            col1, col2, col3 = st.columns(3)  # Create three columns for the select boxes
-
-            with col1:  # First column for brands
-                brand_choice = st.selectbox(
-                    "Select a brand:",
-                    options=pd.unique(selected_df['brand'].dropna()),
-                    key='brand_select'
-                )
+            brand_options = pd.unique(selected_df['brand'].dropna())
+            brand_choice = st.selectbox(
+                "Select a brand:",
+                options=brand_options,
+                index=brand_options.tolist().index(st.session_state.brand) if st.session_state.brand in brand_options else 0,
+                key='brand'
+            )
+            st.session_state.brand = brand_choice  # Update session state
 
             df_filtered_by_brand = selected_df[selected_df['brand'] == brand_choice]
 
-            with col2:  # Second column for models
-                if not df_filtered_by_brand.empty:
-                    model_choice = st.selectbox(
-                        "Select a model:",
-                        options=pd.unique(df_filtered_by_brand['model'].dropna()),
-                        key='model_select'
-                    )
+            if not df_filtered_by_brand.empty:
+                model_options = pd.unique(df_filtered_by_brand['model'].dropna())
+                model_choice = st.selectbox(
+                    "Select a model:",
+                    options=model_options,
+                    index=model_options.tolist().index(st.session_state.model) if st.session_state.model in model_options else 0,
+                    key='model'
+                )
+                st.session_state.model = model_choice  # Update session state
 
-            df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice] if not df_filtered_by_brand.empty else pd.DataFrame()
+                df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice]
 
-            with col3:  # Third column for memory
                 if not df_filtered_by_model.empty:
                     memory_options = ['Any'] + list(pd.unique(df_filtered_by_model['memory_GB'].dropna()))
                     memory_choice = st.selectbox(
                         "Select memory (optional):",
                         options=memory_options,
-                        key='memory_select'
+                        index=memory_options.index(st.session_state.memory) if st.session_state.memory in memory_options else 0,
+                        key='memory'
                     )
+                    st.session_state.memory = memory_choice  # Update session state
 
-                # Adjust DataFrame based on optional memory choice
-                if memory_choice != 'Any' and not df_filtered_by_model.empty:
-                    df_final = df_filtered_by_model[df_filtered_by_model['memory_GB'] == memory_choice]
-                else:
-                    df_final = df_filtered_by_model
+                    if memory_choice != 'Any':
+                        df_final = df_filtered_by_model[df_filtered_by_model['memory_GB'] == memory_choice]
+                    else:
+                        df_final = df_filtered_by_model
 
-            # Optionally display the final DataFrame below the columns if needed
-            if not df_final.empty:
-                st.dataframe(df_final)
+                    st.dataframe(df_final)
 
 if __name__ == "__main__":
     main()
