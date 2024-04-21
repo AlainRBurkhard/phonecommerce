@@ -73,6 +73,10 @@ df_best_deal = df_best_deal[cols]
 import streamlit as st
 import pandas as pd
 
+# Sample DataFrame definitions (you'll replace these with your actual DataFrame imports)
+# Define sample DataFrames here or import them before using them in the app.
+# df_recommended, df_best_deal, fastest_delivery_df = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
+
 def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
 
@@ -82,7 +86,6 @@ def main():
     # Add content to the tab
     with tabs[0]:
         st.header("TipTop for You!")
-        
         st.subheader("Select Your Preference")
         
         # Radio button for DataFrame selection
@@ -100,26 +103,30 @@ def main():
         selected_df = dataframes[df_choice] if df_choice in dataframes else None
 
         if selected_df is not None:
+            # Selectbox for brand
             brand_choice = st.selectbox(
                 "Select a brand:",
                 options=pd.unique(selected_df['brand'].dropna())
             )
 
+            # Filtering DataFrame by selected brand
             df_filtered_by_brand = selected_df[selected_df['brand'] == brand_choice]
 
             if not df_filtered_by_brand.empty:
+                # Selectbox for model
                 model_choice = st.selectbox(
                     "Select a model:",
                     options=pd.unique(df_filtered_by_brand['model'].dropna())
                 )
 
+                # Filtering DataFrame by selected model
                 df_filtered_by_model = df_filtered_by_brand[df_filtered_by_brand['model'] == model_choice]
 
                 # Optional memory selection
-                memory_options = pd.unique(df_filtered_by_model['memory_GB'].dropna())
+                memory_options = ['Any'] + list(pd.unique(df_filtered_by_model['memory_GB'].dropna()))
                 memory_choice = st.selectbox(
                     "Select memory (optional):",
-                    options=['Any'] + list(memory_options)
+                    options=memory_options
                 )
 
                 # Adjust DataFrame based on optional memory choice
@@ -128,11 +135,10 @@ def main():
                 else:
                     df_final = df_filtered_by_model
 
-                # Display or process df_final as required
+                # Display the final DataFrame
                 st.dataframe(df_final)
-                )
+
                 st.write(f"You selected the model: {model_choice}")
-                # Use model_choice for further operations, e.g., displaying more details
 
 def process_data(df):
     # Placeholder function to represent some processing of the DataFrame
@@ -141,3 +147,4 @@ def process_data(df):
 
 if __name__ == "__main__":
     main()
+
