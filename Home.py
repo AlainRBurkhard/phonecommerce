@@ -82,46 +82,61 @@ def display_product_details(df):
         # Extract the first row of the DataFrame
         product = df.iloc[0]
 
-        # Create columns for each detail, aligning them side by side
-        col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
+        # Adding blank lines for spacing before the details
+        st.markdown("###")  # You can adjust the number of these for more or less spacing
 
-        with col1:
-            st.write(f"**Source:**")
-            st.write(product['source'])
+        # Using a container to frame the product details
+        with st.container():
+            st.markdown("#### Product Details")  # Optional: Add a header inside the frame
+            col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
 
-        with col2:
-            st.write(f"**Brand:**")
-            st.write(product['brand'])
+            with col1:
+                st.write(f"**Source:**")
+                st.write(product['source'])
 
-        with col3:
-            st.write(f"**Model:**")
-            st.write(product['model'])
+            with col2:
+                st.write(f"**Brand:**")
+                st.write(product['brand'])
 
-        with col4:
-            st.write(f"**Memory:**")
-            st.write(f"{product['memory_GB']} GB")
+            with col3:
+                st.write(f"**Model:**")
+                st.write(product['model'])
 
-        with col5:
-            st.write(f"**Color:**")
-            st.write(product['color'])
+            with col4:
+                st.write(f"**Memory:**")
+                st.write(f"{product['memory_GB']} GB")
 
-        with col6:
-            st.write(f"**Score:**")
-            st.write(product['score'])
+            with col5:
+                st.write(f"**Color:**")
+                st.write(product['color'])
 
-        with col7:
-            st.write(f"**Price:**")
-            st.write(f"${product['price']:.2f}")
+            with col6:
+                st.write(f"**Score:**")
+                st.write(product['score'])
 
-        with col8:
-            st.write(f"**Delivery:**")
-            st.write(f"{product['delivery_time']} days")
+            with col7:
+                st.write(f"**Price:**")
+                st.write(f"${product['price']:.2f}")
 
-        with col9:
-            st.write(f"**Link:**")
-            url = product['source']
-            st.markdown(f"[Link]({url})", unsafe_allow_html=True)
+            with col8:
+                st.write(f"**Delivery:**")
+                st.write(f"{product['delivery_time']} days")
 
+            with col9:
+                st.write(f"**Link:**")
+                url = product['source']
+                st.markdown(f"[Link]({url})", unsafe_allow_html=True)
+
+            # Adding a style to the container to make it look like a frame
+            st.markdown("""
+            <style>
+            .stContainer {
+                border: 2px solid #4CAF50;
+                border-radius: 10px;
+                padding: 10px;
+            }
+            </style>
+            """, unsafe_allow_html=True)
 def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
 
