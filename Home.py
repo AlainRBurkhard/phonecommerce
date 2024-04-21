@@ -77,25 +77,50 @@ df_best_deal = df_best_deal[cols]
 import streamlit as st
 import pandas as pd
 
-def display_product_details(df):
+ddef display_product_details(df):
     if not df.empty:
         # Extract the first row of the DataFrame
         product = df.iloc[0]
-        
-        # Format and display the selected information
-        st.write("### Product Details")
-        st.write(f"**Source:** {product['source']}")
-        st.write(f"**Brand:** {product['brand']}")
-        st.write(f"**Model:** {product['model']}")
-        st.write(f"**Memory:** {product['memory_GB']} GB")
-        st.write(f"**Color:** {product['color']}")
-        st.write(f"**Score:** {product['score']}")
-        st.write(f"**Price:** ${product['price']:.2f}")
-        st.write(f"**Delivery in days:** {product['delivery_time']} days")
-        
-        # Link (display as clickable text)
-        url = product['source']
-        st.markdown(f"[Link]({url})", unsafe_allow_html=True)
+
+        # Create columns for each detail, aligning them side by side
+        col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
+
+        with col1:
+            st.write(f"**Source:**")
+            st.write(product['source'])
+
+        with col2:
+            st.write(f"**Brand:**")
+            st.write(product['brand'])
+
+        with col3:
+            st.write(f"**Model:**")
+            st.write(product['model'])
+
+        with col4:
+            st.write(f"**Memory:**")
+            st.write(f"{product['memory_GB']} GB")
+
+        with col5:
+            st.write(f"**Color:**")
+            st.write(product['color'])
+
+        with col6:
+            st.write(f"**Score:**")
+            st.write(product['score'])
+
+        with col7:
+            st.write(f"**Price:**")
+            st.write(f"${product['price']:.2f}")
+
+        with col8:
+            st.write(f"**Delivery:**")
+            st.write(f"{product['delivery_time']} days")
+
+        with col9:
+            st.write(f"**Link:**")
+            url = product['source']
+            st.markdown(f"[Link]({url})", unsafe_allow_html=True)
 
 def main():
     st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
