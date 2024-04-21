@@ -87,7 +87,7 @@ def display_product_details(df):
 
         # Using a container to frame the product details
         with st.container():
-            st.markdown("#### Product Details")  # Optional: Add a header inside the frame
+            st.markdown("#### Our Result")  # Optional: Add a header inside the frame
             col1, col2, col3, col4, col5, col6, col7, col8, col9 = st.columns(9)
 
             with col1:
@@ -223,7 +223,7 @@ def main():
             # Optionally display the final DataFrame below the columns if needed
             if not df_final.empty:
                 display_product_details(df_final.iloc[[0]])  # Display first row details
-                st.markdown("## Full Product List")
+                st.markdown("### Check it out too")
                 display_remaining_data(df_final.iloc[1:]) 
 
 if __name__ == "__main__":
