@@ -138,4 +138,4 @@ with tab1:
     
     with st.container():
         #orders per day
-        st.header('TipTop for Yo
+        st.header('TipTop for You')
