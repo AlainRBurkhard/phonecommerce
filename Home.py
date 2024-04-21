@@ -166,7 +166,7 @@ def main():
 
             # Optionally display the final DataFrame below the columns if needed
             if not df_final.empty:
-                st.dataframe(df_final)
+                display_product_details(df_final)
 
 if __name__ == "__main__":
     main()
