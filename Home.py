@@ -14,7 +14,7 @@ df_valid = df[df['delivery_time'].notna()]
 ###########################################################################################################
 # Our Top
 
-df_recommended = df_recommended.sort_values(
+df_recommended = df_valid.sort_values(
     by=['score', 'price', 'delivery_time', 'reviews_count', 'memory_GB', 'camera_MP'],
     ascending=[False, True, True, False, False, False])
 
@@ -53,7 +53,7 @@ fastest_delivery_df = fastest_delivery_df[cols]
 ###########################################################################################################
 # Best deal $
 
-df_best_deal = filtered_df.sort_values(by=['model', 'price', 'delivery_time'])
+df_best_deal = df_valid.sort_values(by=['price', 'delivery_time'])
 df_best_deal.reset_index(drop=True, inplace=True)
 
 df_best_deal.drop(columns='id', inplace=True)
