@@ -150,7 +150,7 @@ def display_remaining_data(df):
             cols[8].markdown(f"[Link]({row['source']})", unsafe_allow_html=True)
 
 def main():
-    st.title("Group 02 - CIP EN - Smartphones e-Commerce Recommendation")
+    st.title("Smartphones e-Commerce Recommendation (")
 
     tabs = st.tabs(["TipTopClub", "Explanation"])
 
